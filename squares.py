@@ -53,14 +53,18 @@ def convert_numbers(list_of_strings):
 
 if __name__ == "__main__":
     import argparse
-    parser = argparse.ArgumentParser(...)
-    parser.add_argument("numbers", nargs="+", type=float, help="...")
-    parser.add_argument("--weights", nargs="*", type=float, help="...")
 
-    args = parser.parse_args()
+    p = argparse.ArgumentParser()
+    p.add_argument("file_numbers", type=argparse.FileType("r"))
+    p.add_argument("--weights", "-w", type=argparse.FileType("r"), default=None)
+    a = p.parse_args()
 
-    numbers = args.numbers      
-    weights = args.weights      
+    numbers = [float(x) for x in a.file_numbers.read().split()]
+    a.file_numbers.close()
 
-    result = average_of_squares(numbers, weights)
-    print(result)
+    weights = None
+    if a.weights:
+        weights = [float(x) for x in a.weights.read().split()]
+        a.weights.close()
+
+    print(average_of_squares(numbers, weights))
