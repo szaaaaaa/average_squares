@@ -55,10 +55,12 @@ if __name__ == "__main__":
     import argparse
     parser = argparse.ArgumentParser(...)
     parser.add_argument("numbers", nargs="+", type=float, help="...")
+    parser.add_argument("--weights", nargs="*", type=float, help="...")
+
     args = parser.parse_args()
 
     numbers = args.numbers      
-    weights = None              
+    weights = args.weights      
 
     result = average_of_squares(numbers, weights)
     print(result)
